@@ -1,0 +1,20 @@
+{
+  "cmake.automaticReconfigure": true,
+  "cmake.options.statusBarVisibility": "visible",
+  "editor.formatOnSave": true,
+  "editor.formatOnSaveMode": "modificationsIfAvailable",
+  "files.associations": {
+    "build-linux": "shellscript",
+    "build-macos": "shellscript",
+    "check_*": "shellscript",
+    "LICENSE": "plaintext",
+    "log_*": "shellscript",
+    "mkcd": "shellscript",
+    "package-linux": "shellscript",
+    "package-macos": "shellscript",
+    "read_*": "shellscript",
+    "run-*-format": "shellscript",
+    "set_*": "shellscript",
+    "setup_*": "shellscript"
+  }
+}
