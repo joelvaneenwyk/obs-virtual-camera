@@ -1,6 +1,7 @@
 name: Check Code Formatting 🛠️
 on:
   workflow_call:
+
 jobs:
   clang-format:
     runs-on: ubuntu-22.04

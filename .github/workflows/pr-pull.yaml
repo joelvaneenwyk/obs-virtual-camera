@@ -5,13 +5,16 @@ on:
   pull_request:
     paths-ignore:
       - '**.md'
-    branches: [master, main, legacy]
+    branches: [master, main, develop, legacy]
     types: [ opened, synchronize, reopened ]
+
 permissions:
   contents: read
+
 concurrency:
   group: '${{ github.workflow }} @ ${{ github.event.pull_request.head.label || github.head_ref || github.ref }}'
   cancel-in-progress: true
+
 jobs:
   check-format:
     name: Check Formatting 🔍

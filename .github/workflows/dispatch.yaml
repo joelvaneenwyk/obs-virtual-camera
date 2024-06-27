@@ -9,8 +9,10 @@ on:
         type: choice
         options:
           - build
+
 permissions:
   contents: write
+
 jobs:
   check-and-build:
     if: inputs.job == 'build'
