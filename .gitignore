@@ -2,20 +2,27 @@
 /*
 
 # Except for default project files
-!/.github
-!/build-aux
-!/cmake
-!/data
-!/src
-!/deps
-!.clang-format
-!.cmake-format.json
-!.gitignore
-!buildspec.json
-!CMakeLists.txt
-!CMakePresets.json
-!LICENSE
-!README.md
+!/.github/
+!/build-aux/
+!/cmake/
+!/data/
+!/src/
+!/deps/
+!/.clang-format
+!/.cmake-format.json
+!/.gitignore
+!/buildspec.json
+!/CMakeLists.txt
+!/CMakePresets.json
+!/LICENSE
+!/README.md
+!/.editorconfig
+
+!/.vscode/
+/.vscode/*
+!/.vscode/extensions.json
+!/.vscode/tasks.json
+!/.vscode/settings.json
 
 # Exclude lock files
 *.lock.json

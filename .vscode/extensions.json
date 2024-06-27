@@ -1,0 +1,6 @@
+{
+  "recommendations": [
+    "theqtcompany.qt-cpp-pack",
+    "ms-vscode.wasm-dwarf-debugging"
+  ]
+}
