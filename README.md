@@ -22,28 +22,28 @@ source from [Fenrirthviti/obs-virtual-cam](https://github.com/Fenrirthviti/obs-v
 
 The installer and compressed file can be found in [Release Page](https://github.com/miaulightouch/obs-virtual-cam/releases). Using installer is recommended, but if you want to use compressed file to install manually , please follow these instructions.
 
-1. Unzip obs-virtualcam-*-windows-x64.zip and put it to your obs-studio install folder.
-2. Run CMD as Administrator and register 32bit directshow source
+1. Unzip `obs-virtualcam-*-windows-x64.zip` and put it to your obs-studio install folder.
+2. Run `CMD` as Administrator and register 32bit directshow source
 
-```batch
-regsvr32 "C:\Program Files\obs-studio\bin\32bit\obs-virtualsource.dll"
-```
+    ```batch
+    regsvr32 "C:\Program Files\obs-studio\bin\32bit\obs-virtualsource.dll"
+    ```
 
-3. Do it again to register 64bit directshow source
+3. Do it again to register 64bit `directshow` source
 
-```batch
-regsvr32 "C:\Program Files\obs-studio\bin\64bit\obs-virtualsource.dll"
-```
+    ```batch
+    regsvr32 "C:\Program Files\obs-studio\bin\64bit\obs-virtualsource.dll"
+    ```
 
-- If you want to Remove the directshow filter , you can also use regsvr32 to do this
+    If you want to remove the `directshow` filter, you can also use `regsvr32` to do this:
 
-```batch
-regsvr32 /u "C:\Program Files\obs-studio\bin\32bit\obs-virtualsource.dll"
-```
+    ```batch
+    regsvr32 /u "C:\Program Files\obs-studio\bin\32bit\obs-virtualsource.dll"
+    ```
 
 ## Register specific number of virtual cameras
 
-Unregister then register 2 directshow camera (up to 4)
+Unregister then register 2 `directshow` camera (up to 4)
 
 ```batch
 regsvr32 /u "C:\Program Files\obs-studio\bin\64bit\obs-virtualsource.dll"
@@ -52,7 +52,7 @@ regsvr32 /n /i:"2" "C:\Program Files\obs-studio\bin\64bit\obs-virtualsource.dll"
 
 ## Build
 
-this repo is updated to the latest OBS Plugin Template, please follow [the guide](https://github.com/obsproject/obs-plugintemplate).
+This repo is updated to the latest OBS Plugin Template, please follow [the guide](https://github.com/obsproject/obs-plugintemplate).
 
 ## Donate
 
