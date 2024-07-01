@@ -81,10 +81,15 @@ function(_setup_obs_studio)
   message(STATUS "Configure ${label} (${arch})")
   execute_process(
     COMMAND
-      "${CMAKE_COMMAND}" -S "${dependencies_dir}/${_obs_destination}" -B
-      "${dependencies_dir}/${_obs_destination}/build_${arch}" -G ${_cmake_generator} "${_cmake_arch}"
-      -DOBS_CMAKE_VERSION:STRING=${_cmake_version} -DENABLE_PLUGINS:BOOL=OFF -DENABLE_UI:BOOL=OFF
-      -DOBS_VERSION_OVERRIDE:STRING=${_obs_version} "-DCMAKE_PREFIX_PATH='${CMAKE_PREFIX_PATH}'" ${_is_fresh}
+      "${CMAKE_COMMAND}" -S "${dependencies_dir}/${_obs_destination}"
+          -B "${dependencies_dir}/${_obs_destination}/build_${arch}"
+          -G ${_cmake_generator}
+          ${_cmake_arch}
+          -DOBS_CMAKE_VERSION:STRING="${_cmake_version} "
+          -DENABLE_PLUGINS:BOOL=OFF -DENABLE_UI:BOOL=OFF
+          -DOBS_VERSION_OVERRIDE:STRING=${_obs_version}
+          -DCMAKE_PREFIX_PATH="${CMAKE_PREFIX_PATH}"
+          ${_is_fresh}
       ${_cmake_extra}
     RESULT_VARIABLE _process_result COMMAND_ERROR_IS_FATAL ANY
     OUTPUT_QUIET)
