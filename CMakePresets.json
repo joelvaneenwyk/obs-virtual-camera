@@ -142,6 +142,20 @@
       }
     },
     {
+      "name": "linux-wsl-x86_64",
+      "inherits": [
+        "linux-x86_64"
+      ],
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "${hostSystemName}"
+      },
+      "binaryDir": "${sourceDir}/linux-wsl-x86_64",
+      "displayName": "Linux WSL x86_64 build",
+      "description": "Build for Linux on WSL"
+    },
+    {
       "name": "linux-ci-x86_64",
       "inherits": [
         "linux-x86_64"
@@ -194,6 +208,18 @@
       "inherits": [
         "linux-x86_64"
       ]
+    },
+    {
+      "hidden": true,
+      "name": "Qt",
+      "cacheVariables": {
+        "CMAKE_PREFIX_PATH": "$env{QTDIR}"
+      },
+      "vendor": {
+        "qt-project.org/Qt": {
+          "checksum": "wVa86FgEkvdCTVp1/nxvrkaemJc="
+        }
+      }
     }
   ],
   "buildPresets": [
@@ -228,7 +254,6 @@
     {
       "name": "windows-x64",
       "configurePreset": "windows-x64",
-
       "displayName": "Windows x64",
       "description": "Windows build for x64",
       "configuration": "RelWithDebInfo"
@@ -268,5 +293,10 @@
       "description": "Linux CI build for aarch64",
       "configuration": "RelWithDebInfo"
     }
-  ]
+  ],
+  "vendor": {
+    "qt-project.org/Presets": {
+      "checksum": "JafT++Xc2CkdOxQG/Y7VVuIZZEA="
+    }
+  }
 }
