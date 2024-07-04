@@ -94,6 +94,7 @@
       "inherits": [
         "template"
       ],
+      "toolchainFile": "${sourceDir}/build-aux/vcpkg/scripts/buildsystems/vcpkg.cmake",
       "binaryDir": "${sourceDir}/.build/x64",
       "installDir": "${sourceDir}/.build/install/x64",
       "condition": {

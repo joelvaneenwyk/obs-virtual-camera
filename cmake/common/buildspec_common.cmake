@@ -89,6 +89,7 @@ function(_setup_obs_studio)
           -DENABLE_PLUGINS:BOOL=OFF -DENABLE_UI:BOOL=OFF
           -DOBS_VERSION_OVERRIDE:STRING=${_obs_version}
           -DCMAKE_PREFIX_PATH="${CMAKE_PREFIX_PATH}"
+          -DCMAKE_TOOLCHAIN_FILE="${CMAKE_TOOLCHAIN_FILE}"
           ${_is_fresh}
       ${_cmake_extra}
     RESULT_VARIABLE _process_result COMMAND_ERROR_IS_FATAL ANY
