@@ -1,5 +1,5 @@
 {
-  "version": 3,
+  "version": 8,
   "cmakeMinimumRequired": {
     "major": 3,
     "minor": 22,
@@ -21,7 +21,7 @@
       "inherits": [
         "template"
       ],
-      "binaryDir": "${sourceDir}/build_macos",
+      "binaryDir": "${sourceDir}/.build/macos",
       "condition": {
         "type": "equals",
         "lhs": "${hostSystemName}",
@@ -57,7 +57,7 @@
       "inherits": [
         "template"
       ],
-      "binaryDir": "${sourceDir}/build_x86",
+      "binaryDir": "${sourceDir}/.build/x86",
       "condition": {
         "type": "equals",
         "lhs": "${hostSystemName}",
@@ -91,7 +91,7 @@
       "inherits": [
         "template"
       ],
-      "binaryDir": "${sourceDir}/build_x64",
+      "binaryDir": "${sourceDir}/.build/x64",
       "condition": {
         "type": "equals",
         "lhs": "${hostSystemName}",
@@ -112,7 +112,7 @@
       "inherits": [
         "windows-x64"
       ],
-      "binaryDir": "${sourceDir}/build_x64_ci",
+      "binaryDir": "${sourceDir}/.build/x64_ci",
       "displayName": "Windows x64 CI build",
       "description": "Build for Windows x64 on CI",
       "cacheVariables": {
@@ -126,7 +126,7 @@
       "inherits": [
         "template"
       ],
-      "binaryDir": "${sourceDir}/build_x86_64",
+      "binaryDir": "${sourceDir}/.build/x86_64",
       "condition": {
         "type": "equals",
         "lhs": "${hostSystemName}",
@@ -174,7 +174,7 @@
       "inherits": [
         "template"
       ],
-      "binaryDir": "${sourceDir}/build_aarch64",
+      "binaryDir": "${sourceDir}/.build/aarch64",
       "condition": {
         "type": "equals",
         "lhs": "${hostSystemName}",
