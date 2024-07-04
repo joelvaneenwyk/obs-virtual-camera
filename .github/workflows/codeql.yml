@@ -1,5 +1,5 @@
-name: "CodeQL"
-
+name: CodeQL
+run-name: CodeQL
 on:
   push:
     branches: [main, develop, legacy]
@@ -7,6 +7,7 @@ on:
     branches: [main, develop, legacy]
   schedule:
     - cron: '19 13 * * 0'
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -22,9 +23,16 @@ permissions:
 
 jobs:
   analyze:
-    name: Analyze (${{ matrix.language }})
     runs-on: 'ubuntu-latest'
     timeout-minutes: 360
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+        - language: c-cpp
+          build-mode: manual
+    name: "Analyze (${{ matrix.language }})"
+
     permissions:
       # required for all workflows
       security-events: write
@@ -36,16 +44,12 @@ jobs:
       actions: read
       contents: write
 
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-        - language: c-cpp
-          build-mode: manual
-
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+        submodules: recursive
 
     # Initializes the CodeQL tools for scanning.
     - name: Initialize CodeQL
@@ -56,7 +60,7 @@ jobs:
 
     - if: matrix.build-mode == 'manual'
       name: Build Project 🧱
-      uses: ./.github/workflows/build-project.yaml
+      uses: ./.github/workflows/build-project.yml
       with:
         secrets: inherit
 
