@@ -9,6 +9,7 @@
     {
       "name": "template",
       "hidden": true,
+      "toolchainFile": "${sourceDir}/build-aux/vcpkg/scripts/buildsystems/vcpkg.cmake",
       "cacheVariables": {
         "ENABLE_FRONTEND_API": true,
         "ENABLE_QT": true
@@ -22,6 +23,7 @@
         "template"
       ],
       "binaryDir": "${sourceDir}/.build/macos",
+      "installDir": "${sourceDir}/.build/install/macos",
       "condition": {
         "type": "equals",
         "lhs": "${hostSystemName}",
@@ -58,6 +60,7 @@
         "template"
       ],
       "binaryDir": "${sourceDir}/.build/x86",
+      "installDir": "${sourceDir}/.build/install/x86",
       "condition": {
         "type": "equals",
         "lhs": "${hostSystemName}",
@@ -92,6 +95,7 @@
         "template"
       ],
       "binaryDir": "${sourceDir}/.build/x64",
+      "installDir": "${sourceDir}/.build/install/x64",
       "condition": {
         "type": "equals",
         "lhs": "${hostSystemName}",
@@ -113,6 +117,7 @@
         "windows-x64"
       ],
       "binaryDir": "${sourceDir}/.build/x64_ci",
+      "installDir": "${sourceDir}/.build/install/x64_ci",
       "displayName": "Windows x64 CI build",
       "description": "Build for Windows x64 on CI",
       "cacheVariables": {
@@ -127,6 +132,7 @@
         "template"
       ],
       "binaryDir": "${sourceDir}/.build/x86_64",
+      "installDir": "${sourceDir}/.build/install/x86_64",
       "condition": {
         "type": "equals",
         "lhs": "${hostSystemName}",
@@ -175,6 +181,7 @@
         "template"
       ],
       "binaryDir": "${sourceDir}/.build/aarch64",
+      "installDir": "${sourceDir}/.build/install/aarch64",
       "condition": {
         "type": "equals",
         "lhs": "${hostSystemName}",
