@@ -32,3 +32,5 @@
 
 # Exclude CMake build number cache
 /cmake/.CMakeBuildNumber
+
+!/cspell.config.yaml

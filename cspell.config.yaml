@@ -1,0 +1,11 @@
+version: "0.2"
+ignorePaths: []
+dictionaryDefinitions:
+  - name: obs-virtual-camera
+    path: ./.github/config/obs-virtual-camera.dict
+    addWords: true
+dictionaries:
+  - obs-virtual-camera
+words: []
+ignoreWords: []
+import: []
