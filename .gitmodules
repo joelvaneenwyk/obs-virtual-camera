@@ -1,0 +1,4 @@
+[submodule "build-aux/vcpkg"]
+	path = build-aux/vcpkg
+	url = https://github.com/microsoft/vcpkg
+	branch = master
