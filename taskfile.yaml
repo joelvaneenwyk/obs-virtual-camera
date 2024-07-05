@@ -1,0 +1,47 @@
+# https://taskfile.dev
+
+version: "3"
+
+vars:
+  GIT_VERSION:
+    sh: git describe --tags HEAD || true
+
+  VERSION: '{{ .GIT_VERSION | default "0.0.1.unknown" | splitLines | first }}'
+  BUILD_OS: '{{if eq OS "windows"}}windows{{else}}{{if eq OS "darwin"}}macos{{else}}linux{{end}}{{end}}'
+
+  BUILD_DIR_NAME: '{{ .BUILD_DIR_NAME | default ".build" }}'
+  BUILD_DIR_ROOT: '{{ joinPath .ROOT_DIR .BUILD_DIR_NAME }}'
+  BUILD_DIR: '{{ joinPath .BUILD_DIR_ROOT .BUILD_OS }}'
+
+  DEP_SOURCE_DIR: '{{ joinPath .BUILD_DIR "source" }}'
+  DEP_BUILD_DIR: '{{ joinPath .BUILD_DIR "out" }}'
+  DEP_ARCHIVE_DIR: '{{ joinPath .BUILD_DIR "archives" }}'
+  DEP_TEMP_DIR: '{{ joinPath .BUILD_DIR "tmp" }}'
+
+  INSTALL_PREFIX: '{{ joinPath .BUILD_DIR "install" }}'
+
+tasks:
+  default:
+    deps: [build]
+
+  update:
+    preconditions:
+      - git --version
+      - test -d "{{ .TASKFILE_DIR }}/.git"
+    cmds:
+      - cmd: git -C "{{ .TASKFILE_DIR }}" add .
+      - cmd: git -C "{{ .TASKFILE_DIR }}" fetch
+      - cmd: git -C "{{ .TASKFILE_DIR }}" pull --rebase --autostash
+
+  git-submodule-update:
+    internal: true
+    status:
+      - test -f "{{ .TASKFILE_DIR }}/build-aux/vcpkg/.gitignore"
+    cmds:
+      - cmd: git submodule update --recursive --checkout --init
+
+  build:
+    deps: [git-submodule-update]
+    cmds:
+      - cmd: cmake -B "{{ fromSlash .BUILD_DIR }}" -S "{{ .ROOT_DIR }}" --preset windows-x64
+      - cmd: cmake --build "{{ fromSlash .BUILD_DIR }}"
