@@ -101,9 +101,9 @@ function(_setup_obs_studio)
     RESULT_VARIABLE _process_result COMMAND_ERROR_IS_FATAL ANY
     # @joelvaneenwyk - Added to get extra details on error
     OUTPUT_VARIABLE _process_output
-    ERROR_VARIABLE _process_error
+    ERROR_VARIABLE _process_output
     OUTPUT_FILE "${dependencies_build_dir}/${_obs_destination}_${arch}/cmake_output.log"
-    ERROR_FILE "${dependencies_build_dir}/${_obs_destination}_${arch}/cmake_error.log"
+    ERROR_FILE "${dependencies_build_dir}/${_obs_destination}_${arch}/cmake_output.log"
     ECHO_OUTPUT_VARIABLE
     ECHO_ERROR_VARIABLE)
   message(STATUS "Configure ${label} (${arch}) - done")
@@ -115,9 +115,9 @@ function(_setup_obs_studio)
     # @joelvaneenwyk - Added to get extra details on error
     RESULT_VARIABLE _process_result COMMAND_ERROR_IS_FATAL ANY
     OUTPUT_VARIABLE _process_output
-    ERROR_VARIABLE _process_error
+    ERROR_VARIABLE _process_output
     OUTPUT_FILE "${dependencies_build_dir}/${_obs_destination}_${arch}/cmake_output.log"
-    ERROR_FILE "${dependencies_build_dir}/${_obs_destination}_${arch}/cmake_error.log"
+    ERROR_FILE "${dependencies_build_dir}/${_obs_destination}_${arch}/cmake_output.log"
     ECHO_OUTPUT_VARIABLE
     ECHO_ERROR_VARIABLE)
   message(STATUS "Build ${label} (${arch}) - done")
@@ -135,9 +135,9 @@ function(_setup_obs_studio)
     RESULT_VARIABLE _process_result COMMAND_ERROR_IS_FATAL ANY
     # @joelvaneenwyk - Added to get extra details on error
     OUTPUT_VARIABLE _process_output
-    ERROR_VARIABLE _process_error
+    ERROR_VARIABLE _process_output
     OUTPUT_FILE "${dependencies_build_dir}/${_obs_destination}_${arch}/cmake_output.log"
-    ERROR_FILE "${dependencies_build_dir}/${_obs_destination}_${arch}/cmake_error.log"
+    ERROR_FILE "${dependencies_build_dir}/${_obs_destination}_${arch}/cmake_output.log"
     ECHO_OUTPUT_VARIABLE
     ECHO_ERROR_VARIABLE)
   message(STATUS "Install ${label} (${arch}) - done")

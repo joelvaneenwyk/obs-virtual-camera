@@ -3,6 +3,7 @@ AUTOMOC
 AUTORCC
 autoreleasing
 autosort
+autostash
 AUTOUIC
 Catx
 DARRAY
@@ -18,6 +19,8 @@ regsvr
 RPATH
 SOVERSION
 Struct
+TASKFILE
+vcpkg
 virtualcam
 virtualsource
 virutalcam

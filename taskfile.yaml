@@ -9,9 +9,23 @@ vars:
   VERSION: '{{ .GIT_VERSION | default "0.0.1.unknown" | splitLines | first }}'
   BUILD_OS: '{{if eq OS "windows"}}windows{{else}}{{if eq OS "darwin"}}macos{{else}}linux{{end}}{{end}}'
 
-  BUILD_DIR_NAME: '{{ .BUILD_DIR_NAME | default ".build" }}'
-  BUILD_DIR_ROOT: '{{ joinPath .ROOT_DIR .BUILD_DIR_NAME }}'
-  BUILD_DIR: '{{ joinPath .BUILD_DIR_ROOT .BUILD_OS }}'
+  DEPS_BUILD_ROOT: '{{ joinPath .ROOT_DIR ".deps" }}'
+
+  BUILD_ROOT: '{{ joinPath .ROOT_DIR ".build" }}'
+
+  BUILD_DIR_PLATFORM_NAME: >-
+    {{if eq OS "windows"}}
+      x64
+    {{else}}
+      {{if eq OS "darwin"}}
+        x64
+      {{else}}
+        x64
+      {{end}}
+    {{end}}
+  BUILD_DIR: '{{ joinPath .BUILD_ROOT .BUILD_DIR_PLATFORM_NAME }}'
+
+  BUILD_TARGET_NAME: '{{if eq OS "windows"}}x64-windows{{else}}{{if eq OS "darwin"}}x64-macos{{else}}x64-linux{{end}}{{end}}'
 
   DEP_SOURCE_DIR: '{{ joinPath .BUILD_DIR "source" }}'
   DEP_BUILD_DIR: '{{ joinPath .BUILD_DIR "out" }}'
@@ -19,6 +33,22 @@ vars:
   DEP_TEMP_DIR: '{{ joinPath .BUILD_DIR "tmp" }}'
 
   INSTALL_PREFIX: '{{ joinPath .BUILD_DIR "install" }}'
+
+  TRIPLE_DIR_NAME: >-
+    {{if eq OS "windows"}}
+      x64-windows
+    {{else}}
+      {{if eq OS "darwin"}}
+        x64-darwin
+      {{else}}
+        x64-linux
+      {{end}}
+    {{end}}
+
+  VCPKG_ROOT: '{{ .ROOT_DIR }}/build-aux/vcpkg'
+  VCPKG_EXE: '{{ .VCPKG_ROOT }}/vcpkg.exe'
+  VCPKG_BUILD_DIR: '{{ joinPath .BUILD_DIR "vcpkg_installed" .TRIPLE_DIR_NAME }}'
+  VCPKG_INSTALLED_ZLIB_HEADER_PATH: '{{ joinPath .VCPKG_BUILD_DIR "include" "zlib.h" }}'
 
 tasks:
   default:
@@ -40,8 +70,49 @@ tasks:
     cmds:
       - cmd: git submodule update --recursive --checkout --init
 
-  build:
-    deps: [git-submodule-update]
+  rebuild:
     cmds:
-      - cmd: cmake -B "{{ fromSlash .BUILD_DIR }}" -S "{{ .ROOT_DIR }}" --preset windows-x64
-      - cmd: cmake --build "{{ fromSlash .BUILD_DIR }}"
+      - cmd: git add .
+      - task: clean
+      - task: build
+
+  clean:
+    cmds:
+      - cmd: cmd.exe /D /C if exist "{{ fromSlash .DEPS_BUILD_ROOT }}" rmdir /S /Q "{{ fromSlash .DEPS_BUILD_ROOT }}"
+      - cmd: cmd.exe /D /C if exist "{{ fromSlash .BUILD_ROOT }}" rmdir /S /Q "{{ fromSlash .BUILD_ROOT }}"
+      - cmd: git -C "{{ fromSlash .VCPKG_ROOT }}" clean -xfd
+      - cmd: git -C "{{ fromSlash .ROOT_DIR }}" clean -xfd
+
+  vcpkg-bootstrap:
+    deps: [git-submodule-update]
+    sources:
+      - '{{ .ROOT_DIR }}/build-aux/vcpkg/bootstrap-vcpkg.bat'
+    generates:
+      - '{{ .VCPKG_EXE }}'
+    status:
+      - 'test -f "{{ .VCPKG_EXE }}'
+      - '"{{ fromSlash .VCPKG_EXE }}" --version'
+    silent: true
+    cmds:
+      - cmd: cmd.exe /D /C call "{{ .ROOT_DIR }}/build-aux/vcpkg/bootstrap-vcpkg.bat"
+        ignore_error: true
+      - cmd: '"{{ fromSlash .VCPKG_EXE }}" --version'
+
+  vcpkg:
+    deps: [vcpkg-bootstrap]
+    sources:
+      - '{{ .TASKFILE_DIR }}/vcpkg.json'
+    generates:
+      - '{{ .VCPKG_INSTALLED_ZLIB_HEADER_PATH }}'
+    cmds:
+      - cmd: cmd.exe /D /C call "{{ fromSlash .VCPKG_EXE }}" install --vcpkg-root "{{ fromSlash .VCPKG_ROOT }}" --disable-metrics
+
+  configure:
+    deps: [vcpkg]
+    cmds:
+      - cmd: cmake --preset windows-x64 --trace
+
+  build:
+    deps: [configure]
+    cmds:
+      - cmd: cmake --build "{{ fromSlash .BUILD_DIR }}" --trace
