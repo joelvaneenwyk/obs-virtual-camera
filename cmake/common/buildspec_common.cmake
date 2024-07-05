@@ -87,10 +87,10 @@ function(_setup_obs_studio)
     COMMAND
       "${CMAKE_COMMAND}"
           -S "${dependencies_dir}/${_obs_destination}"
-          -B "${dependencies_build_dir}/${_obs_destination}/build_${arch}"
+          -B "${dependencies_dir}/${_obs_destination}/build_${arch}"
           -G "${_cmake_generator}"
           ${_cmake_arch}
-          -DOBS_CMAKE_VERSION:STRING="${_cmake_version} "
+          -DOBS_CMAKE_VERSION:STRING="${_cmake_version}"
           -DENABLE_PLUGINS:BOOL=OFF
           -DENABLE_UI:BOOL=OFF
           -DOBS_VERSION_OVERRIDE:STRING=${_obs_version}
@@ -102,22 +102,26 @@ function(_setup_obs_studio)
     # @joelvaneenwyk - Added to get extra details on error
     OUTPUT_VARIABLE _process_output
     ERROR_VARIABLE _process_output
-    OUTPUT_FILE "${dependencies_build_dir}/${_obs_destination}_${arch}/cmake_output.log"
-    ERROR_FILE "${dependencies_build_dir}/${_obs_destination}_${arch}/cmake_output.log"
+    OUTPUT_FILE "${dependencies_dir}/${_obs_destination}_${arch}_cmake_output.log"
+    ERROR_FILE "${dependencies_dir}/${_obs_destination}_${arch}_cmake_output.log"
     ECHO_OUTPUT_VARIABLE
     ECHO_ERROR_VARIABLE)
   message(STATUS "Configure ${label} (${arch}) - done")
 
   message(STATUS "Build ${label} (${arch})")
   execute_process(
-    COMMAND "${CMAKE_COMMAND}" --build build_${arch} --target obs-frontend-api --config Debug --parallel
+    COMMAND "${CMAKE_COMMAND}"
+      --build build_${arch}
+      --target obs-frontend-api
+      --config Debug
+      --parallel
     WORKING_DIRECTORY "${dependencies_dir}/${_obs_destination}"
     # @joelvaneenwyk - Added to get extra details on error
     RESULT_VARIABLE _process_result COMMAND_ERROR_IS_FATAL ANY
     OUTPUT_VARIABLE _process_output
     ERROR_VARIABLE _process_output
-    OUTPUT_FILE "${dependencies_build_dir}/${_obs_destination}_${arch}/cmake_output.log"
-    ERROR_FILE "${dependencies_build_dir}/${_obs_destination}_${arch}/cmake_output.log"
+    OUTPUT_FILE "${dependencies_dir}/${_obs_destination}_${arch}_cmake_output.log"
+    ERROR_FILE "${dependencies_dir}/${_obs_destination}_${arch}_cmake_output.log"
     ECHO_OUTPUT_VARIABLE
     ECHO_ERROR_VARIABLE)
   message(STATUS "Build ${label} (${arch}) - done")
@@ -129,15 +133,19 @@ function(_setup_obs_studio)
     set(_cmake_extra "")
   endif()
   execute_process(
-    COMMAND "${CMAKE_COMMAND}" --install build_${arch} --component Development --config Debug --prefix
-            "${dependencies_dir}" ${_cmake_extra}
+    COMMAND "${CMAKE_COMMAND}"
+      --install build_${arch}
+      --component Development
+      --config Debug
+      --prefix "${dependencies_dir}"
+      ${_cmake_extra}
     WORKING_DIRECTORY "${dependencies_dir}/${_obs_destination}"
     RESULT_VARIABLE _process_result COMMAND_ERROR_IS_FATAL ANY
     # @joelvaneenwyk - Added to get extra details on error
     OUTPUT_VARIABLE _process_output
     ERROR_VARIABLE _process_output
-    OUTPUT_FILE "${dependencies_build_dir}/${_obs_destination}_${arch}/cmake_output.log"
-    ERROR_FILE "${dependencies_build_dir}/${_obs_destination}_${arch}/cmake_output.log"
+    OUTPUT_FILE "${dependencies_dir}/${_obs_destination}_${arch}_cmake_output.log"
+    ERROR_FILE "${dependencies_dir}/${_obs_destination}_${arch}_cmake_output.log"
     ECHO_OUTPUT_VARIABLE
     ECHO_ERROR_VARIABLE)
   message(STATUS "Install ${label} (${arch}) - done")

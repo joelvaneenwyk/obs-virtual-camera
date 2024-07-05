@@ -4,26 +4,29 @@ version: "3"
 
 vars:
   GIT_VERSION:
-    sh: git describe --tags HEAD || true
+    sh: |
+      if _value="$(git -C "{{ fromSlash .ROOT_DIR }}" describe 2>/dev/null)"; then
+        echo "$_value"
+      else
+        echo "0.0.1.unknown"
+      fi
 
   VERSION: '{{ .GIT_VERSION | default "0.0.1.unknown" | splitLines | first }}'
-  BUILD_OS: '{{if eq OS "windows"}}windows{{else}}{{if eq OS "darwin"}}macos{{else}}linux{{end}}{{end}}'
 
-  DEPS_BUILD_ROOT: '{{ joinPath .ROOT_DIR ".deps" }}'
-
+  DEPS_ROOT: '{{ joinPath .ROOT_DIR ".deps" }}'
   BUILD_ROOT: '{{ joinPath .ROOT_DIR ".build" }}'
-
   BUILD_DIR_PLATFORM_NAME: >-
     {{if eq OS "windows"}}
-      x64
+    x64-windows
     {{else}}
       {{if eq OS "darwin"}}
-        x64
+      x64-macos
       {{else}}
-        x64
+      x64-linux
       {{end}}
     {{end}}
-  BUILD_DIR: '{{ joinPath .BUILD_ROOT .BUILD_DIR_PLATFORM_NAME }}'
+  PRESET_NAME: windows-x64
+  BUILD_DIR: '{{ joinPath .BUILD_ROOT (trim .BUILD_DIR_PLATFORM_NAME) }}'
 
   BUILD_TARGET_NAME: '{{if eq OS "windows"}}x64-windows{{else}}{{if eq OS "darwin"}}x64-macos{{else}}x64-linux{{end}}{{end}}'
 
@@ -47,12 +50,20 @@ vars:
 
   VCPKG_ROOT: '{{ .ROOT_DIR }}/build-aux/vcpkg'
   VCPKG_EXE: '{{ .VCPKG_ROOT }}/vcpkg.exe'
-  VCPKG_BUILD_DIR: '{{ joinPath .BUILD_DIR "vcpkg_installed" .TRIPLE_DIR_NAME }}'
+  VCPKG_BUILD_DIR: '{{ joinPath .BUILD_DIR "vcpkg_installed" (trim .TRIPLE_DIR_NAME) }}'
   VCPKG_INSTALLED_ZLIB_HEADER_PATH: '{{ joinPath .VCPKG_BUILD_DIR "include" "zlib.h" }}'
 
 tasks:
   default:
     deps: [build]
+
+  info:
+    silent: true
+    cmds:
+      - cmd: 'echo "{{ .VERSION }}"'
+      - cmd: 'echo "Build: {{ .BUILD_DIR }}"'
+      - cmd: 'echo "Dependencies: {{ .DEPS_ROOT }}"'
+      - cmd: 'echo "zlib: {{ .VCPKG_INSTALLED_ZLIB_HEADER_PATH }}"'
 
   update:
     preconditions:
@@ -64,7 +75,6 @@ tasks:
       - cmd: git -C "{{ .TASKFILE_DIR }}" pull --rebase --autostash
 
   git-submodule-update:
-    internal: true
     status:
       - test -f "{{ .TASKFILE_DIR }}/build-aux/vcpkg/.gitignore"
     cmds:
@@ -78,7 +88,7 @@ tasks:
 
   clean:
     cmds:
-      - cmd: cmd.exe /D /C if exist "{{ fromSlash .DEPS_BUILD_ROOT }}" rmdir /S /Q "{{ fromSlash .DEPS_BUILD_ROOT }}"
+      - cmd: cmd.exe /D /C if exist "{{ fromSlash .DEPS_ROOT }}" rmdir /S /Q "{{ fromSlash .DEPS_ROOT }}"
       - cmd: cmd.exe /D /C if exist "{{ fromSlash .BUILD_ROOT }}" rmdir /S /Q "{{ fromSlash .BUILD_ROOT }}"
       - cmd: git -C "{{ fromSlash .VCPKG_ROOT }}" clean -xfd
       - cmd: git -C "{{ fromSlash .ROOT_DIR }}" clean -xfd
@@ -110,7 +120,7 @@ tasks:
   configure:
     deps: [vcpkg]
     cmds:
-      - cmd: cmake --preset windows-x64 --trace
+      - cmd: cmake --preset "{{ .PRESET_NAME }}" --trace
 
   build:
     deps: [configure]

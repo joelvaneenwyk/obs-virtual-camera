@@ -15,8 +15,7 @@ function(_check_dependencies_windows)
   endif()
   set(platform windows-${arch})
 
-  set(dependencies_dir "${CMAKE_CURRENT_SOURCE_DIR}/.deps")
-  set(dependencies_build_dir "${CMAKE_CURRENT_SOURCE_DIR}/.build/deps")  # @joelvaneenwyk - Added to consolidate build directories
+  set(dependencies_dir "${CMAKE_CURRENT_SOURCE_DIR}/.build/deps")  # @joelvaneenwyk - Modified to consolidate build directories
   set(prebuilt_filename "windows-deps-VERSION-ARCH-REVISION.zip")
   set(prebuilt_destination "obs-deps-VERSION-ARCH")
   set(qt6_filename "windows-deps-qt6-VERSION-ARCH-REVISION.zip")

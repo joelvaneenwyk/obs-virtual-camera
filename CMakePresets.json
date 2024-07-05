@@ -59,8 +59,8 @@
       "inherits": [
         "template"
       ],
-      "binaryDir": "${sourceDir}/.build/x86",
-      "installDir": "${sourceDir}/.build/install/x86",
+      "binaryDir": "${sourceDir}/.build/x86-windows",
+      "installDir": "${sourceDir}/.build/install/x86-windows",
       "condition": {
         "type": "equals",
         "lhs": "${hostSystemName}",
@@ -95,8 +95,8 @@
         "template"
       ],
       "toolchainFile": "${sourceDir}/build-aux/vcpkg/scripts/buildsystems/vcpkg.cmake",
-      "binaryDir": "${sourceDir}/.build/x64",
-      "installDir": "${sourceDir}/.build/install/x64",
+      "binaryDir": "${sourceDir}/.build/x64-windows",
+      "installDir": "${sourceDir}/.build/install/x64-windows",
       "condition": {
         "type": "equals",
         "lhs": "${hostSystemName}",
@@ -117,8 +117,9 @@
       "inherits": [
         "windows-x64"
       ],
-      "binaryDir": "${sourceDir}/.build/x64_ci",
-      "installDir": "${sourceDir}/.build/install/x64_ci",
+      "toolchainFile": "${sourceDir}/build-aux/vcpkg/scripts/buildsystems/vcpkg.cmake",
+      "binaryDir": "${sourceDir}/.build/x64-windows-ci",
+      "installDir": "${sourceDir}/.build/install/x64-windows-ci",
       "displayName": "Windows x64 CI build",
       "description": "Build for Windows x64 on CI",
       "cacheVariables": {
