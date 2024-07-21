@@ -1,9 +1,16 @@
 {
   "$schema": "https://raw.githubusercontent.com/microsoft/vcpkg-tool/main/docs/vcpkg.schema.json",
   "name": "obs-virtual-camera",
+  "builtin-baseline": "f7423ee180c4b7f40d43402c2feb3859161ef625",
   "dependencies": [
     "curl",
-    "ffmpeg"
-  ],
-  "builtin-baseline": "f7423ee180c4b7f40d43402c2feb3859161ef625"
+    "ffmpeg",
+    "lua",
+    "luajit",
+    {
+      "name": "qtbase",
+      "default-features": false,
+      "features": ["gui", "widgets"]
+    }
+  ]
 }
