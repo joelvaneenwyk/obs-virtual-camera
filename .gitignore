@@ -2,11 +2,12 @@
 /*
 
 # Except for default project files
-!/.github
-!/build-aux
-!/cmake
-!/data
-!/src
+!/.github/
+!/build-aux/
+/build-aux/vcpkg/
+!/cmake/
+!/data/
+!/src/
 !.clang-format
 !.cmake-format.json
 !.gitignore
