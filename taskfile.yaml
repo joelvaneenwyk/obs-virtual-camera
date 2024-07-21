@@ -2,6 +2,14 @@
 
 version: "3"
 
+env:
+  # https://learn.microsoft.com/en-us/vcpkg/users/config-environment
+  VCPKG_DOWNLOADS: 'm:/cache/vcpkg-data/downloads'
+  VCPKG_USE_NUGET_CACHE: 1
+  VCPKG_NO_CI: 1
+  VCPKG_KEEP_ENV_VARS: >-
+    CMAKE_TOOLCHAIN_FILE;VCPKG_ROOT
+
 vars:
   GIT_VERSION:
     sh: |
@@ -93,7 +101,7 @@ tasks:
       - cmd: git -C "{{ fromSlash .VCPKG_ROOT }}" clean -xfd
       - cmd: git -C "{{ fromSlash .ROOT_DIR }}" clean -xfd
 
-  vcpkg-bootstrap:
+  vcpkg:
     deps: [git-submodule-update]
     sources:
       - '{{ .ROOT_DIR }}/build-aux/vcpkg/bootstrap-vcpkg.bat'
@@ -108,7 +116,7 @@ tasks:
         ignore_error: true
       - cmd: '"{{ fromSlash .VCPKG_EXE }}" --version'
 
-  vcpkg:
+  vcpkg-install:
     deps: [vcpkg-bootstrap]
     sources:
       - '{{ .TASKFILE_DIR }}/vcpkg.json'
