@@ -6,7 +6,7 @@ on:
   pull_request:
     branches: [main, develop, legacy]
   schedule:
-    - cron: '19 13 * * 0'
+    - cron: "19 13 * * 0"
   workflow_dispatch:
 
 permissions:
@@ -23,7 +23,7 @@ permissions:
 
 jobs:
   analyze:
-    runs-on: 'ubuntu-latest'
+    runs-on: "ubuntu-latest"
     timeout-minutes: 360
     strategy:
       fail-fast: false
@@ -31,7 +31,7 @@ jobs:
         include:
           - language: c-cpp
             build-mode: manual
-    name: 'Analyze (${{ matrix.language }})'
+    name: "Analyze (${{ matrix.language }})"
 
     permissions:
       # required for all workflows
@@ -60,11 +60,11 @@ jobs:
 
       - if: matrix.build-mode == 'manual'
         name: Build Project 🧱
-        uses: ./.github/workflows/build-project.yml
+        uses: ./.github/workflows/build-project.yaml
         with:
           secrets: inherit
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v3
         with:
-          category: '/language:${{matrix.language}}'
+          category: "/language:${{matrix.language}}"

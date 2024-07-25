@@ -1,6 +1,6 @@
 # OBS-VirtualCam
 
-![CI Windows On-Push](https://github.com/miaulightouch/obs-virtual-cam/actions/workflows/main.yml/badge.svg)
+![CI Windows On-Push](https://github.com/miaulightouch/obs-virtual-cam/actions/workflows/main.yaml/badge.svg)
 
 obs-virutalcam is a plugin for obs-studio , transforming the output video to a virtual directshow device.
 

@@ -17,13 +17,13 @@ jobs:
   check-format:
     name: Check Formatting 🔍
     if: github.ref_name == 'master' || github.ref_name == 'main' || github.ref_name == 'develop'
-    uses: ./check-format.yml
+    uses: ./.github/workflows/check-format.yaml
     permissions:
       contents: read
 
   build-project:
     name: Build Project 🧱
-    uses: ./build-project.yml
+    uses: ./.github/workflows/build-project.yaml
     secrets: inherit
     permissions:
       contents: read

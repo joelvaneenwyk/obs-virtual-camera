@@ -18,13 +18,13 @@ concurrency:
 jobs:
   check-format:
     name: Check Formatting 🔍
-    uses: ./check-format.yml
+    uses: ./.github/workflows/check-format.yaml
     permissions:
       contents: read
 
   build-project:
     name: Build Project 🧱
-    uses: ./build-project.yml
+    uses: ./.github/workflows/build-project.yaml
     secrets: inherit
     permissions:
       contents: read

@@ -16,5 +16,5 @@ permissions:
 jobs:
   check-and-build:
     if: inputs.job == 'build'
-    uses: ./build-project.yml
+    uses: ./.github/workflows/build-project.yaml
     secrets: inherit
