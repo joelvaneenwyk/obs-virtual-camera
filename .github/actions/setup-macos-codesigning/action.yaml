@@ -107,7 +107,7 @@ runs:
       id: provisioning
       if: ${{ fromJSON(steps.codesign.outputs.haveCodesignIdent) }}
       env:
-          MACOS_SIGNING_PROVISIONING_PROFILE: ${{ inputs.provisioningProfile }}
+        MACOS_SIGNING_PROVISIONING_PROFILE: ${{ inputs.provisioningProfile }}
       run: |
         : Provisioning Profile 👤
         if (( ${+RUNNER_DEBUG} )) setopt XTRACE
@@ -141,8 +141,8 @@ runs:
       id: notarization
       if: ${{ fromJSON(steps.codesign.outputs.haveCodesignIdent) }}
       env:
-          MACOS_NOTARIZATION_USERNAME: ${{ inputs.notarizationUser }}
-          MACOS_NOTARIZATION_PASSWORD: ${{ inputs.notarizationPassword }}
+        MACOS_NOTARIZATION_USERNAME: ${{ inputs.notarizationUser }}
+        MACOS_NOTARIZATION_PASSWORD: ${{ inputs.notarizationPassword }}
       run: |
         : Notarization 🧑‍💼
         if (( ${+RUNNER_DEBUG} )) setopt XTRACE
